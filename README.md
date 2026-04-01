@@ -1,13 +1,18 @@
 
 ## learnt
+Reference : https://github.com/RareSkills/Udemy-Yul-Code
+
 add, sub, mul, div, mod, 
 for, iszero, not, if, 
-sload, sstore, .slot, .offset, : (number, value) = [0..31]
+sload, sstore, .slot, (( .offset, : (number, value) = number := [0..31] ))
 shr, shl :(count, value) [0..255] 
+mstore, mload, mstore8, msize(), each slot = 1 byte (mstore(p, value) where p is [0..31]) whereas in sstore each slot is 32 bytes
+pop - just throws away the returned b32 value
 
 - no overflow protection in yul, like compiler 0.8.0 
 - only if, no else exists
 - shr == div / 0x10, shl = mul * 0x10 (shifting is gas efficient)
+- msize returns max slots in memory being accessed
 
 ## Foundry
 

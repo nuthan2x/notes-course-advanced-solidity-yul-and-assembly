@@ -178,4 +178,20 @@ contract StorageComplex {
             )
         }
     }
+
+    event Debug(bytes32, bytes32, bytes32, bytes32);
+    function args(uint256[] memory arr) external {
+        bytes32 location;
+        bytes32 len;
+        bytes32 valueAtIndex0;
+        bytes32 valueAtIndex1;
+        assembly {
+            location := arr // 0x80
+            len := mload(arr) // mload(0x80)
+            valueAtIndex0 := mload(add(arr, 0x20)) // mload(0xa0)
+            valueAtIndex1 := mload(add(arr, 0x40)) // mload(0xc0)
+            // ...
+        }
+        emit Debug(location, len, valueAtIndex0, valueAtIndex1);
+    }
 }
