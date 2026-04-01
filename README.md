@@ -3,7 +3,7 @@
 add, sub, mul, div, mod, 
 for, iszero, not, if, 
 sload, sstore, .slot, .offset, : (number, value) = [0..31]
-shr, shl :(count, value) [0..255]
+shr, shl :(count, value) [0..255] 
 
 - no overflow protection in yul, like compiler 0.8.0 
 - only if, no else exists
