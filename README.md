@@ -1,3 +1,14 @@
+
+## learnt
+add, sub, mul, div, mod, 
+for, iszero, not, if, 
+sload, sstore, .slot, .offset, : (number, value) = [0..31]
+shr, shl :(count, value) [0..255]
+
+- no overflow protection in yul, like compiler 0.8.0 
+- only if, no else exists
+- shr == div / 0x10, shl = mul * 0x10 (shifting is gas efficient)
+
 ## Foundry
 
 **Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
