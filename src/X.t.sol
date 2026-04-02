@@ -21,9 +21,9 @@ contract Yul {
         }
     }
 
-    function isPrime(uint256 x) external pure returns (bool y) {
+    function isPrime(uint256 _x) external pure returns (bool y) {
         assembly {
-            let halfX := add(div(x, 2), 1)
+            let halfX := add(div(_x, 2), 1)
             for {
                 let i := 2
             } lt(i, halfX) {
@@ -193,5 +193,170 @@ contract StorageComplex {
             // ...
         }
         emit Debug(location, len, valueAtIndex0, valueAtIndex1);
+    }
+
+
+    function xx() public pure returns(uint ,uint) {
+        assembly {
+            mstore(0x00, 2)
+            mstore(0x20, 9)
+            return(0x00, 0x40)
+        }
+    }
+
+     function yy(address m) public view  {
+        assembly {
+            if iszero(eq(m, address())) {revert(0,0)}
+            
+            
+        }
+    }
+
+    function zz() public pure returns(bytes32) {
+        assembly {
+            let pointer := mload(0x60)
+
+            mstore(pointer, 2)
+            mstore(add(pointer, 0x20), 4)
+
+            mstore(0x0, keccak256(pointer, 0x40))
+
+            return(0x0, 0x40)
+        }
+    }
+
+    event A();
+    event A1(uint a);
+    event A2(uint indexed a);
+    event B1(uint a, uint128 b);
+    event B2(uint indexed a, uint128 b);
+    
+    event C1(uint a, uint128 b, uint c);
+    event C2(uint indexed a, uint128 b, uint c);
+
+    event D1(uint indexed a, uint128 indexed b, uint indexed c, uint d);
+
+    function emitter() public {
+        emit A();
+        bytes32 sig = keccak256("A()");
+        assembly {
+            log1(0, 0, sig)
+        }
+
+        emit A1(1);
+        sig = keccak256("A1(uint256)");
+        assembly {
+            mstore(0x0, 1)
+            log1(0x0, 0x20, sig)
+        }
+
+        emit A2(2);
+        sig = keccak256("A2(uint256)");
+        assembly {
+            log2(0, 0, sig, 2)
+        }
+        emit B1(1, 2);
+
+        sig = keccak256("B1(uint256,uint128)");
+        assembly {
+            mstore(0x0, 1)
+            mstore(0x20, 2)
+            log1(0x0, 0x40, sig)
+        }
+
+        emit B2(1, 2);
+        sig = keccak256("B2(uint256,uint128)");
+        assembly {
+            mstore(0x0, 2)
+            log2(0x0, 0x20, sig, 1)
+        }
+
+        emit C1(1, 2, 3);
+        sig = keccak256("C1(uint256,uint128,uint256)");
+        assembly {
+            let ptr := mload(0x40) // read actual free memory pointer
+            mstore(ptr, 1) // a=1
+            mstore(add(ptr, 0x20), 2) // b=2
+            mstore(add(ptr, 0x40), 3) // c=3
+            log1(ptr, 0x60, sig) // log 96 bytes, topic0=sig
+        }
+
+        emit C2(1, 2, 3);
+        sig = keccak256("C2(uint256,uint128,uint256)");
+        assembly {
+            mstore(0x0, 2)
+            mstore(0x20, 3)
+            log2(0x0, 0x40, sig, 1)
+        }
+
+        emit D1(1, 2, 3, 4);
+        sig = keccak256("D1(uint256,uint128,uint256,uint256)");
+        assembly {
+            mstore(0x0, 4)
+            log4(0x0, 0x20, sig, 1, 2, 3)
+        }
+    }
+
+    function calls() public {
+        bytes4 sig = bytes4(keccak256("yy(address)"));
+
+        assembly {
+            let pointer := mload(0x40)
+            mstore(add(pointer, 28), sig)
+            mstore(add(pointer, 0x20), address())
+            pop(staticcall(gas(), address(), add(pointer, 28), add(4 , 0x20), 0, 0))
+        }
+
+        sig = bytes4(keccak256("set_fixedArray(uint256,uint256,uint256)"));
+
+        assembly {
+            let pointer := mload(0x40)
+            mstore(add(pointer, 28), sig)
+            mstore(add(pointer, 0x20), 1)
+            mstore(add(pointer, 0x40), 2)
+            mstore(add(pointer, 0x60), 3)
+            let result := call(gas(), address(), 0, add(pointer, 28), add(4, 0x60), 0, 0)
+
+            returndatacopy(0, 0, returndatasize())
+            if iszero(result) {
+                revert(0, returndatasize())
+            }
+            return(0, returndatasize())
+        }
+
+        assembly {
+            calldatacopy(0, 0, calldatasize())
+            let result := delegatecall(gas(), address(), 0, calldatasize(), 0, 0)
+            returndatacopy(0, 0, returndatasize())
+
+            switch result 
+            case 0 {
+                revert(0, returndatasize())
+            }
+            default {
+                return(0, returndatasize())
+            }
+        }
+    }
+
+}
+
+
+
+
+object "Simple" {
+    code {
+        datacopy(0, dataoffset("runtime"), datasize("runtime"))
+        return(0, datasize("runtime"))        
+    }
+
+    object "runtime" {
+        
+        code {
+            datacopy(0x00, dataoffset("Message"), datasize("Message"))
+            return(0x00, datasize("Message"))
+        }
+
+        data "Message" "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt"
     }
 }
