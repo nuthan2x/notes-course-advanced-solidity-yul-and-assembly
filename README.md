@@ -8,6 +8,7 @@ Reference : https://github.com/RareSkills/Udemy-Yul-Code
 - sload, sstore, .slot, (( .offset, : (number, value) = number := [0..31] ))
 - shr, shl :(count, value) [0..255] 
 - mstore, mload, mstore8, msize(), each slot = 1 byte (mstore(p, value) where p is [0..31]) whereas in - sstore each slot is 32 bytes
+- `leave` opcode is like early plain `return;` in solidity. useful in internal functions..,
 - pop - just throws away the returned b32 value
 - return(0x00, 0x40) return from 0 to 64 bytes
 - address() equivalent to address(this)
