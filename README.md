@@ -19,8 +19,8 @@ Reference : https://github.com/RareSkills/Udemy-Yul-Code
 - returndatacopy(p, s, returndatasize()) (p = copying to slot, s = start of returndata bytes)
 - switch x case y {} default {}
 
-- calldata .offset, .length is possible. check: https://github.com/nuthan2x/erc4626-yul/blob/4b94dfe0923615a992179bd7481ca62d20f8a4f1/src/ERC721.yul.sol#L31-L36
-- byteN is laid out from MSB to LSB (left to right) in memory layout. while LSB to MSB in storage packing , check: https://github.com/nuthan2x/erc4626-yul/blob/4b94dfe0923615a992179bd7481ca62d20f8a4f1/src/ERC721.yul.sol#L16-L19
+- calldata .offset, .length is possible. check: https://github.com/nuthan2x/erc721-yul/blob/4b94dfe0923615a992179bd7481ca62d20f8a4f1/src/ERC721.yul.sol#L31-L35
+- byteN is laid out from MSB to LSB (left to right) in memory layout. while LSB to MSB in storage packing , check: https://github.com/nuthan2x/erc721-yul/blob/4b94dfe0923615a992179bd7481ca62d20f8a4f1/src/ERC721.yul.sol#L10-L23
 - 
 
 if topic is an indexed element, then no need to store in memory, the topic istlef will print it..,
