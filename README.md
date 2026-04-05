@@ -21,7 +21,7 @@ Reference : https://github.com/RareSkills/Udemy-Yul-Code
 
 - calldata .offset, .length is possible. check: https://github.com/nuthan2x/erc721-yul/blob/4b94dfe0923615a992179bd7481ca62d20f8a4f1/src/ERC721.yul.sol#L31-L35
 - byteN is laid out from MSB to LSB (left to right) in memory layout. while LSB to MSB in storage packing , check: https://github.com/nuthan2x/erc721-yul/blob/4b94dfe0923615a992179bd7481ca62d20f8a4f1/src/ERC721.yul.sol#L10-L23
-- 
+- dynamic mem declared inside returns(bytes memory data), teh data actually is a memory pointer, so you can assign it := mload(0x40), or even use taht data into mloading, mload(data) will return the length of data, and to get actual data, add 0x20. check https://github.com/OpenZeppelin/openzeppelin-contracts/blob/9cfdccd35350f7bcc585cf2ede08cd04e7f0ec10/contracts/token/ERC721/utils/ERC721Utils.sol#L44
 
 if topic is an indexed element, then no need to store in memory, the topic istlef will print it..,
 t0 = mostly the sig of event, other topics max == 3 or 4 if sig is ignored
