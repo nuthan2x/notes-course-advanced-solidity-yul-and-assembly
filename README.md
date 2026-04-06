@@ -2,7 +2,8 @@
 ## learnt
 Reference : https://github.com/RareSkills/Udemy-Yul-Code
 
-- add, sub, mul, div, mod, 
+- add, sub, mul, div, mod,
+- div(x, y) will not revert if denom == 0, it will return = 0
 - for, iszero, not, if, eq,
 - return(slot num, size) , revert(slot num, size)
 - sload, sstore, .slot, (( .offset, : (number, value) = number := [0..31] ))
